@@ -1,1 +1,1 @@
-# NightGram
+# Modeled DayGram
