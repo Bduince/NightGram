@@ -63,11 +63,7 @@ public class EditActivity extends AppCompatActivity {
 
 
 
-     //   sod.setYear(calendar.get(Calendar.YEAR));
-     //   sod.setMonth(calendar.get(Calendar.MONTH)+1);
-     //   sod.setDay(day);
-     //   sod.setWeek(week);
-     //   mPerson.setId();
+
 
         String inputText = load(mPerson.getId()+"");
         if (!TextUtils.isEmpty(inputText)) {

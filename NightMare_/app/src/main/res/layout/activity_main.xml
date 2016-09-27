@@ -86,6 +86,7 @@
             android:layout_height="30dp"
             android:id="@+id/plus"
             android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
             android:background="@drawable/add_today_btn_over"/>
 
         <ImageView
@@ -111,8 +112,24 @@
         android:background="#F2F1ED"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
-        <ListView
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/month_list"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    </ListView>
+</LinearLayout>
+
+        </HorizontalScrollView>
     </LinearLayout>
 </LinearLayout>

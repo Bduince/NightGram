@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,13 +35,16 @@ import android.text.format.DateFormat;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    ListViewAdapter adapter;
+    View2Adapter view_adapter;
     private ImageView nextButton  ;
+    List<MonthSelect> month_list = new ArrayList<>();
     ListView listView;
     private final int requestCode = 1500;
     final List<ListViewItem> listItem = new ArrayList<ListViewItem>();
     final  List<ListViewItem> viewItem =new ArrayList<>();
     TextView mTime;
+    final Calendar calendar = Calendar.getInstance();
     private static final int msgKey1 = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         //声明区***************************************************
         setContentView(R.layout.activity_main);
         final ListView listView=(ListView)findViewById(R.id.list_view);
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);                                         //修改为set
+        final Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);                                         //修改为set
         int month = calendar.get(Calendar.MONTH);                                       //修改为set
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         int week = calendar.get(Calendar.DAY_OF_WEEK);
@@ -80,11 +85,12 @@ public class MainActivity extends AppCompatActivity {
                 viewItem.add(listItem.get(i));
             }
         }
-   //     View2Adapter view_adapter = new View2Adapter(this,R.layout.view_other,viewItem);
-   //     listView.setAdapter(view_adapter);
-        ListViewAdapter adapter = new ListViewAdapter(MainActivity.this, listItem);
+        view_adapter = new View2Adapter(this,R.layout.view_other,viewItem);
+
+        adapter = new ListViewAdapter(MainActivity.this, listItem);
             //listView加载适配器
         listView.setAdapter(adapter);
+    //    listView.setAdapter(view_adapter);
             //设置点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -126,42 +132,88 @@ public class MainActivity extends AppCompatActivity {
         TextView month_btn = (TextView)findViewById(R.id.month_button);
         String month_select = listItem.get(day-1).month_to_string();
         month_btn.setText("| "+month_select+" | ");
+        final LinearLayout main = (LinearLayout)findViewById(R.id.main);
+        final LinearLayout view = (LinearLayout)findViewById(R.id.view);
+//        final RelativeLayout main = (RelativeLayout) findViewById(R.id.main);
+//        final RelativeLayout view = (RelativeLayout)findViewById(R.id.view);
+        final ListView monthList = (ListView)findViewById(R.id.month_list);
+
+        initMonth();
+        AdapterMonth monthAdapter = new AdapterMonth(this,R.layout.month,month_list);
+        monthList.setAdapter(monthAdapter);
+        month_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                main.setVisibility(View.GONE);
+                view.setVisibility(View.VISIBLE);
+                monthList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        month_list.get(position).onIsSelect();
+                      //  ImageView on = (ImageView)findViewById(R.id.off);
+                      //  ImageView off = (ImageView)findViewById(R.id.on);
+                      //  on.setVisibility(View.GONE);
+                      //  off.setVisibility(View.VISIBLE);
+                        main.setVisibility(View.VISIBLE);
+                        view.setVisibility(View.GONE);
+                     /*   switch (  month_list.get(position).getMonth()){
+                            case "January": calendar.set(year,0);break;
+                            case "February":calendar.set(year,1);break;
+                            case "March":calendar.set(year,2);break;
+                            case "April":calendar.set(year,3);break;
+                            case "May":calendar.set(year,4);break;
+                            case "Jnue":calendar.set(year,5);break;
+                            case "July":calendar.set(year,6);break;
+                            case "August":calendar.set(year,7);break;
+                            case "September":calendar.set(year,8);break;
+                            case "October":calendar.set(year,9);break;
+                            case "November":calendar.set(year,10);break;
+                            default:calendar.set(year,11);
+                        }
+*/
+                    }
+                });
+            }
+        });
         //切换年
         TextView year_btn = (TextView)findViewById(R.id.year_button);
-        year_btn.setText(listItem.get(day-1).getYear()+"|");
+        year_btn.setText(listItem.get(day-1).getYear()+" | ");
         //切换样式
 
         nextButton = (ImageView)findViewById(R.id.another_view);
         nextButton.setOnClickListener(new View.OnClickListener() {
+            int count = 0;
             @Override
             public void onClick(View v) {
-                goNextPage();
+                count +=1;
+                if(count==2){
+                    count =0;
+                }
+                if(count==0){
+                    listView.setAdapter(view_adapter);
+                }else if(count==1){
+                    listView.setAdapter(adapter);
+                }
+
             }
         });
     }
 
-    private void goNextPage() {
-        setContentView(R.layout.activity_main);
-        View2Adapter view_adapter = new View2Adapter(this,R.layout.view_other,viewItem);
-        listView.setAdapter(view_adapter);
-
-        nextButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                goPrePage();
-            }
-        });
+    private void initMonth() {
+        month_list.add(new MonthSelect(R.drawable.month_1_on,R.drawable.month_1_off,"January"));
+        month_list.add(new MonthSelect(R.drawable.month_2_on,R.drawable.month_2_off,"February"));
+        month_list.add(new MonthSelect(R.drawable.month_3_on,R.drawable.month_3_off,"March"));
+        month_list.add(new MonthSelect(R.drawable.month_4_on,R.drawable.month_4_off,"April"));
+        month_list.add(new MonthSelect(R.drawable.month_5_on,R.drawable.month_5_off,"May"));
+        month_list.add(new MonthSelect(R.drawable.month_6_on,R.drawable.month_6_off,"June"));
+        month_list.add(new MonthSelect(R.drawable.month_7_on,R.drawable.month_7_off,"July"));
+        month_list.add(new MonthSelect(R.drawable.month_8_on,R.drawable.month_8_off,"August"));
+        month_list.add(new MonthSelect(R.drawable.month_9_on,R.drawable.month_9_off,"September"));
+        month_list.add(new MonthSelect(R.drawable.month_10_on,R.drawable.month_10_off,"October"));
+        month_list.add(new MonthSelect(R.drawable.month_11_on,R.drawable.month_11_off,"November"));
+        month_list.add(new MonthSelect(R.drawable.month_12_on,R.drawable.month_12_off,"December"));
     }
 
-    private void goPrePage() {
-        setContentView(R.layout.activity_main);
-        ListViewAdapter adapter = new ListViewAdapter(MainActivity.this, listItem);
-        listView.setAdapter(adapter);
-        nextButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                goNextPage();
-            }
-        });
-    }
 
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data){
