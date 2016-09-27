@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F2F1ED"
+
+    tools:context="com.eb.nightmare_.MainActivity"
+  >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="540dp"
+        android:background="#F2F1ED"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/head_ShowTheWeeks"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textSize="15sp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="5dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textSize="10sp"
+                android:paddingLeft="16dp"
+                />
+            <TextView
+                android:id="@+id/mytime"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:divider="#00000000"
+            android:dividerHeight="10dp">
+
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/main"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F1ED"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/month_button"
+            android:textSize="15sp"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/year_button"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/plus"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/add_today_btn_over"/>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:id="@+id/another_view"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/change_view_btn"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/set"
+            android:background="@drawable/go_setting_btn"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/view"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F1ED"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </LinearLayout>
+</LinearLayout>
