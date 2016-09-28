@@ -4,6 +4,7 @@ package com.eb.nightmare_;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,6 +29,7 @@ import java.util.Calendar;
 
 public class EditActivity extends AppCompatActivity {
     private EditText edit;
+    Calendar calendar = Calendar.getInstance();
     private View root;
     ListViewItem mPerson;
   //  final ListViewItem sod = new AfterClickListView();
@@ -38,7 +40,7 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         //取得信息
-        Calendar calendar = Calendar.getInstance();
+
         Intent i =getIntent();
         final ListViewItem mlistItem =(ListViewItem) i.getSerializableExtra("before");
         mPerson = mlistItem;
@@ -58,13 +60,6 @@ public class EditActivity extends AppCompatActivity {
 
         textView.setText(mPerson.week_to_string()+" / "+mPerson.month_to_string()+str);
 
-
-
-
-
-
-
-
         String inputText = load(mPerson.getId()+"");
         if (!TextUtils.isEmpty(inputText)) {
             edit.setText(inputText);
@@ -78,6 +73,14 @@ public class EditActivity extends AppCompatActivity {
 
         final ImageButton ibtn_done = (ImageButton) findViewById(R.id.done);
         final ImageView insert_time = (ImageView)findViewById(R.id.insert_time);
+        insert_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str = (new SimpleDateFormat(" HH:mm ")).format(calendar.getTime());
+                getEditTextCursorIndex(edit);
+                insertText(edit,str);
+            }
+        });
         ibtn_done.setVisibility(View.GONE);
         insert_time.setVisibility(View.GONE);
         edit.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +105,13 @@ public class EditActivity extends AppCompatActivity {
               //  startActivity(intent);
             }
         });
+    }
+
+    private int getEditTextCursorIndex(EditText edit) {
+        return edit.getSelectionStart();
+    }
+    private void insertText(EditText mEditText, String mText){
+        mEditText.getText().insert(getEditTextCursorIndex(mEditText), mText);
     }
     @Override
     protected void onDestroy()

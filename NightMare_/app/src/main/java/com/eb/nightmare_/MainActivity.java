@@ -36,7 +36,10 @@ import android.text.format.DateFormat;
 
 public class MainActivity extends AppCompatActivity {
     ListViewAdapter adapter;
+    String month_select;
     View2Adapter view_adapter;
+    TextView month_btn;
+    TextView year_btn;
     private ImageView nextButton  ;
     List<MonthSelect> month_list = new ArrayList<>();
     ListView listView;
@@ -54,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final ListView listView=(ListView)findViewById(R.id.list_view);
         final Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);                                         //修改为set
-        int month = calendar.get(Calendar.MONTH);                                       //修改为set
+        final int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         int week = calendar.get(Calendar.DAY_OF_WEEK);
 
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     aim = ((i+1)%7-day%7)+week+7;
                 }
+                if(aim>7) aim-=7;
                     listItem.add(new ListViewItem(year,month,aim,i+1));
                     String inputText = load(listItem.get(i).getId()+"");
                 if (!TextUtils.isEmpty(inputText)) {
@@ -90,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListViewAdapter(MainActivity.this, listItem);
             //listView加载适配器
         listView.setAdapter(adapter);
-    //    listView.setAdapter(view_adapter);
             //设置点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -129,15 +132,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 //切换月份
-        TextView month_btn = (TextView)findViewById(R.id.month_button);
-        String month_select = listItem.get(day-1).month_to_string();
+        month_btn = (TextView)findViewById(R.id.month_button);
+        month_select = listItem.get(day-1).month_to_string();
         month_btn.setText("| "+month_select+" | ");
         final LinearLayout main = (LinearLayout)findViewById(R.id.main);
         final LinearLayout view = (LinearLayout)findViewById(R.id.view);
-//        final RelativeLayout main = (RelativeLayout) findViewById(R.id.main);
-//        final RelativeLayout view = (RelativeLayout)findViewById(R.id.view);
         final ListView monthList = (ListView)findViewById(R.id.month_list);
-
         initMonth();
         AdapterMonth monthAdapter = new AdapterMonth(this,R.layout.month,month_list);
         monthList.setAdapter(monthAdapter);
@@ -149,35 +149,161 @@ public class MainActivity extends AppCompatActivity {
                 monthList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        month_list.get(position).onIsSelect();
-                      //  ImageView on = (ImageView)findViewById(R.id.off);
-                      //  ImageView off = (ImageView)findViewById(R.id.on);
-                      //  on.setVisibility(View.GONE);
-                      //  off.setVisibility(View.VISIBLE);
+                        switch (  month_list.get(position).getMonth()){
+                            case "January":
+                                calendar.set(Calendar.MONTH,0);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"January "+" | ");
+                                break;
+                            case "February":
+                                calendar.set(Calendar.MONTH,1);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"February"+" | ");
+                                break;
+                            case "March":
+                                calendar.set(Calendar.MONTH,2);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"March"   +" | ");
+                                break;
+                            case "April":
+                                calendar.set(Calendar.MONTH,3);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"April   "+" | ");
+                                break;
+                            case "May":
+                                calendar.set(Calendar.MONTH,4);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"May     "+" | ");break;
+                            case "Jnue":
+                                calendar.set(Calendar.MONTH,5);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"Jnue    "+" | ");break;
+                            case "July":
+                                calendar.set(Calendar.MONTH,6);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"July    "+" | ");break;
+                            case "August":
+                                calendar.set(Calendar.MONTH,7);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"August   "+" | ");break;
+                            case "September":
+                                calendar.set(Calendar.MONTH,8);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"September"+" | ");break;
+                            case "October":
+                                calendar.set(Calendar.MONTH,9);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"October  "+" | ");break;
+                            case "November":
+                                calendar.set(Calendar.MONTH,10);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"November "+" | ");break;
+                            default:
+                                calendar.set(Calendar.MONTH,11);
+                                calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                month_btn.setText("| "+"December "+" | ");break;
+                        }
                         main.setVisibility(View.VISIBLE);
                         view.setVisibility(View.GONE);
-                     /*   switch (  month_list.get(position).getMonth()){
-                            case "January": calendar.set(year,0);break;
-                            case "February":calendar.set(year,1);break;
-                            case "March":calendar.set(year,2);break;
-                            case "April":calendar.set(year,3);break;
-                            case "May":calendar.set(year,4);break;
-                            case "Jnue":calendar.set(year,5);break;
-                            case "July":calendar.set(year,6);break;
-                            case "August":calendar.set(year,7);break;
-                            case "September":calendar.set(year,8);break;
-                            case "October":calendar.set(year,9);break;
-                            case "November":calendar.set(year,10);break;
-                            default:calendar.set(year,11);
-                        }
-*/
+                        List<ListViewItem> change_month_list = new ArrayList<ListViewItem>();
+                        initList(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.DAY_OF_WEEK),
+                                calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),change_month_list);
+
+                        listItem.clear();
+                        listItem.addAll(change_month_list);
+                        change_month_list.clear();
+                        adapter.notifyDataSetChanged();
                     }
                 });
             }
         });
         //切换年
-        TextView year_btn = (TextView)findViewById(R.id.year_button);
+        final TextView year_btn = (TextView)findViewById(R.id.year_button);
         year_btn.setText(listItem.get(day-1).getYear()+" | ");
+        final LinearLayout view_year = (LinearLayout)findViewById(R.id.view_year);
+        year_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                main.setVisibility(View.GONE);
+                view_year.setVisibility(View.VISIBLE);
+                TextView year13 = (TextView)findViewById(R.id.year13);
+                TextView year14 = (TextView)findViewById(R.id.year14);
+                TextView year15 = (TextView)findViewById(R.id.year15);
+                TextView year16 = (TextView)findViewById(R.id.year16);
+                year13.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        calendar.set(Calendar.YEAR,2013);
+                        calendar.set(Calendar.DAY_OF_MONTH,calendar.getMaximum(Calendar.DAY_OF_MONTH));
+                        year_btn.setText("2013"+" | ");
+                        main.setVisibility(View.VISIBLE);
+                        view_year.setVisibility(View.GONE);
+                        List<ListViewItem> change_month_list = new ArrayList<ListViewItem>();
+                        initList(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.DAY_OF_WEEK),
+                                calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),change_month_list);
+
+                        listItem.clear();
+                        listItem.addAll(change_month_list);
+                        change_month_list.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                year14.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        calendar.set(Calendar.YEAR,2014);
+                        calendar.set(Calendar.DAY_OF_MONTH,calendar.getMaximum(Calendar.DAY_OF_MONTH));
+                        year_btn.setText("2014"+" | ");
+                        main.setVisibility(View.VISIBLE);
+                        view_year.setVisibility(View.GONE);
+                        List<ListViewItem> change_month_list = new ArrayList<ListViewItem>();
+                        initList(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.DAY_OF_WEEK),
+                                calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),change_month_list);
+
+                        listItem.clear();
+                        listItem.addAll(change_month_list);
+                        change_month_list.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                year15.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        calendar.set(Calendar.YEAR,2015);
+                        calendar.set(Calendar.DAY_OF_MONTH,calendar.getMaximum(Calendar.DAY_OF_MONTH));
+                        year_btn.setText("2015"+" | ");
+                        main.setVisibility(View.VISIBLE);
+                        view_year.setVisibility(View.GONE);
+                        List<ListViewItem> change_month_list = new ArrayList<ListViewItem>();
+                        initList(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.DAY_OF_WEEK),
+                                calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),change_month_list);
+
+                        listItem.clear();
+                        listItem.addAll(change_month_list);
+                        change_month_list.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                year16.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        calendar.set(Calendar.YEAR,2016);
+                        calendar.set(Calendar.DAY_OF_MONTH,calendar.getMaximum(Calendar.DAY_OF_MONTH));
+                        year_btn.setText("2016"+" | ");
+                        main.setVisibility(View.VISIBLE);
+                        view_year.setVisibility(View.GONE);
+                        List<ListViewItem> change_month_list = new ArrayList<ListViewItem>();
+                        initList(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.DAY_OF_WEEK),
+                                calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),change_month_list);
+
+                        listItem.clear();
+                        listItem.addAll(change_month_list);
+                        change_month_list.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
         //切换样式
 
         nextButton = (ImageView)findViewById(R.id.another_view);
@@ -198,7 +324,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    public void initList(int day,int week,int year,int month,List<ListViewItem> listItem){
+        int aim;
+        for(int i =0;i<day;++i){
+            if(((i+1)%7-day%7+week)>0) {
+                aim = ((i+1)%7-day%7)+week;
+            }
+            else{
+                aim = ((i+1)%7-day%7)+week+7;
+            }
+            if(aim>7) aim-=7;
+            listItem.add(new ListViewItem(year,month,aim,i+1));
+            String inputText = load(listItem.get(i).getId()+"");
+            if (!TextUtils.isEmpty(inputText)) {
+                listItem.get(i).setText(inputText);
+                listItem.get(i).setType();
+                Toast.makeText(this, "Restoring succeeded",
+                        Toast.LENGTH_SHORT).show();
+            }
 
+        }
+    }
     private void initMonth() {
         month_list.add(new MonthSelect(R.drawable.month_1_on,R.drawable.month_1_off,"January"));
         month_list.add(new MonthSelect(R.drawable.month_2_on,R.drawable.month_2_off,"February"));
@@ -260,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return content.toString();
     }
+
     public class TimeThread extends Thread {
         @Override
         public void run () {
@@ -275,6 +422,10 @@ public class MainActivity extends AppCompatActivity {
                                  }
             } while(true);
         }
+    }
+    private void refresh() {
+        finish();
+        onCreate(null);
     }
     private Handler mHandler = new Handler() {
         @Override

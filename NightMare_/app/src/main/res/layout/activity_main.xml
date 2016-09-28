@@ -76,6 +76,8 @@
 
         <TextView
             android:textSize="15sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/year_button"
@@ -90,6 +92,8 @@
             android:background="@drawable/add_today_btn_over"/>
 
         <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:id="@+id/another_view"
@@ -115,20 +119,56 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:layout_height="match_parent">
-
     <ListView
         android:id="@+id/month_list"
-
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
     </ListView>
-</LinearLayout>
+
+
+        </HorizontalScrollView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/view_year"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F1ED"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/year13"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="2013"/>
+                <TextView
+                    android:id="@+id/year14"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="2014"/>
+                <TextView
+                    android:id="@+id/year15"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="2015"/>
+                <TextView
+                    android:id="@+id/year16"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="2016"/>
+            </LinearLayout>
+
 
         </HorizontalScrollView>
     </LinearLayout>
